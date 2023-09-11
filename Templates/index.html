@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD PYTHON ALEJO</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>CRUD PYTHON ALEJO</h1>
+    <h2>Agregar Persona</h2>
+    <form action="/crear_persona" method="post">
+        Nombre: <input type="text" name="nombre" required><br>
+        Apellido: <input type="text" name="apellido" required><br>
+        Correo Electrónico: <input type="email" name="correo" required><br>
+        <input type="submit" value="Agregar">
+    </form>
+
+    <h2>Listado de Personas</h2>
+    <table border="1">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo Electrónico</th>
+            <th>Actualizar</th>
+            <th>Eliminar</th>
+        </tr>
+        {% for persona in personas %}
+        <tr>
+            <td>{{ persona.nombre }}</td>
+            <td>{{ persona.apellido }}</td>
+            <td>{{ persona.correo }}</td>
+            <td>
+                <form action="/actualizar_persona" method="post">
+                    <input type="hidden" name="num_persona" value="{{ loop.index - 1 }}">
+                    Nombre: <input type="text" name="nombre" value="{{ persona.nombre }}" required>
+                    Apellido: <input type="text" name="apellido" value="{{ persona.apellido }}" required>
+                    Correo Electrónico: <input type="email" name="correo" value="{{ persona.correo }}" required>
+                    <input type="submit" value="Actualizar">
+                </form>
+            </td>
+            <td>
+                <form action="/eliminar_persona" method="post">
+                    <input type="hidden" name="num_persona" value="{{ loop.index - 1 }}">
+                    <input type="submit" value="Eliminar">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
